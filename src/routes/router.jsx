@@ -14,7 +14,7 @@ import YourArticles from "../conponents/Admindashboard/YourArticles/yourArticles
 import AllUser from "../conponents/Admindashboard/allUser/allUser.jsx";
 import AllComment from "../conponents/Admindashboard/allComment/allComment.jsx";
 import AdminHome from "../conponents/Admindashboard/adminHome/adminHome.jsx";
-import UpdatePost from "../conponents/Admindashboard/adminHome/updatePost.jsx";
+import UpdatePost from "../conponents/Admindashboard/YourArticles/updatePost.jsx";
 
 
 const router = createBrowserRouter([
