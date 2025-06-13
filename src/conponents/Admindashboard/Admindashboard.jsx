@@ -6,6 +6,7 @@ import {
     FileText,
     MessageCircle,
     LogOut,
+    Users
 } from 'lucide-react';
 import {logoutUser} from "../../redux/feature/auth/authSlice.jsx";
 import {removeToken} from "../../utilitis/sessionHelper.js";
@@ -33,6 +34,7 @@ const Admindashboard = () => {
         { to: "/dashboard/admin", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
         { to: "/dashboard/creat-post", label: "Create Post", icon: <FilePlus size={18} /> },
         { to: "/dashboard/your-articles", label: "Your Articles", icon: <FileText size={18} /> },
+        {to:"/dashboard/all-user",label: "All User",icon: <Users  size={18} /> },
         { to: "/dashboard/all-comment", label: "All Comment", icon: <MessageCircle size={18} /> },
     ];
 
