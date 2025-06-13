@@ -68,10 +68,10 @@ const YourArticles = () => {
 
     return (
         <div className="p-4">
-            <div className="overflow-x-auto">
-                <table className="table w-full border">
+            <div className="w-full overflow-x-auto">
+                <table className="w-full min-w-[600px] border table-auto">
                     <thead>
-                    <tr className="bg-gray-100 text-left">
+                    <tr className="bg-gray-100 text-left text-sm">
                         <th className="p-2 border">Date updated</th>
                         <th className="p-2 border">Post image</th>
                         <th className="p-2 border">Post title</th>
@@ -82,10 +82,10 @@ const YourArticles = () => {
                     </thead>
                     <tbody>
                     {currerentNews.map((item, index) => (
-                        <tr key={index} className="border-t hover:bg-gray-50">
+                        <tr key={index} className="border-t hover:bg-gray-50 text-sm">
                             <td className="p-2 border">{new Date(item.createdAt).toLocaleDateString()}</td>
                             <td className="p-2 border">
-                                <div className="w-3/4 h-10 overflow-hidden rounded">
+                                <div className="w-16 h-10 overflow-hidden rounded">
                                     <img
                                         src={item.image}
                                         alt={item.title}
@@ -93,66 +93,68 @@ const YourArticles = () => {
                                     />
                                 </div>
                             </td>
-                            <td className="p-2 border">{item.title}</td>
-                            <td className="p-2 border">{item.category}</td>
-                            <td onClick={() => HandledeleteArticle(item?._id)}
-                                className="p-2 border text-red-600 cursor-pointer">Delete
+                            <td className="p-2 border break-words">{item.title}</td>
+                            <td className="p-2 border break-words">{item.category}</td>
+                            <td
+                                onClick={() => HandledeleteArticle(item?._id)}
+                                className="p-2 border text-red-600 cursor-pointer text-center"
+                            >
+                                Delete
                             </td>
-                            <td className="p-2 border text-green-600 cursor-pointer"><Link
-                                to={`/dashboard/update-post/${item?._id}`}>Edit</Link></td>
+                            <td className="p-2 border text-green-600 cursor-pointer text-center">
+                                <Link to={`/dashboard/update-post/${item?._id}`}>Edit</Link>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
-
-                {
-                    currerentNews.length > 0 && (
-                        <div className="text-center mt-8 space-x-2">
-                            <button
-                                onClick={handlePrevPage}
-                                disabled={currentPage === 1}
-                                className={`px-4 py-2 rounded-md border text-sm font-medium ${
-                                    currentPage === 1
-                                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                        : "bg-white text-gray-700 hover:bg-gray-100"
-                                }`}
-                            >
-                                Previous
-                            </button>
-
-                            {[...Array(totalPages)].map((_, index) => (
-                                <button
-                                    onClick={() => HandlecurrerentPage(index + 1)}
-                                    key={index}
-                                    className={`px-3 py-2 rounded-md border text-sm font-medium ${
-                                        currentPage === index + 1
-                                            ? "bg-blue-500 text-white"
-                                            : "bg-white text-gray-700 hover:bg-gray-100"
-                                    }`}
-                                >
-                                    {index + 1}
-                                </button>
-                            ))}
-
-                            <button
-                                onClick={handleNextPage}
-                                disabled={currentPage === totalPages}
-                                className={`px-4 py-2 rounded-md border text-sm font-medium ${
-                                    currentPage === totalPages
-                                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                        : "bg-white text-gray-700 hover:bg-gray-100"
-                                }`}
-                            >
-                                Next
-                            </button>
-                        </div>
-                    )
-                }
-
-                <p className="mt-4 text-sm text-center text-gray-500">
-                    A list of your recent published articles.
-                </p>
             </div>
+
+            {currerentNews.length > 0 && (
+                <div className="flex flex-wrap justify-center mt-6 gap-2">
+                    <button
+                        onClick={handlePrevPage}
+                        disabled={currentPage === 1}
+                        className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                            currentPage === 1
+                                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                                : "bg-white text-gray-700 hover:bg-gray-100"
+                        }`}
+                    >
+                        Previous
+                    </button>
+
+                    {[...Array(totalPages)].map((_, index) => (
+                        <button
+                            onClick={() => HandlecurrerentPage(index + 1)}
+                            key={index}
+                            className={`px-3 py-2 rounded-md border text-sm font-medium ${
+                                currentPage === index + 1
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-white text-gray-700 hover:bg-gray-100"
+                            }`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+
+                    <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                        className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                            currentPage === totalPages
+                                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                                : "bg-white text-gray-700 hover:bg-gray-100"
+                        }`}
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+
+            <p className="mt-4 text-sm text-center text-gray-500">
+                A list of your recent published articles.
+            </p>
         </div>
     );
 };

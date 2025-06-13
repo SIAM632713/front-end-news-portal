@@ -3,7 +3,7 @@ import { BookOpen, Globe, Rocket } from 'lucide-react';
 
 const CardSection = () => {
     return (
-        <div className=" max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-10">
                 Why You'll Love Morning Dispatch
             </h2>
