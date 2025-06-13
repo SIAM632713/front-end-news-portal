@@ -1,6 +1,5 @@
 import {createApi,fetchBaseQuery}  from "@reduxjs/toolkit/query/react";
 import {getBaseURL} from "../../../utilitis/utilitis.js";
-import {data} from "react-router-dom";
 
 const articleAPI=createApi({
     reducerPath:"articleAPI",

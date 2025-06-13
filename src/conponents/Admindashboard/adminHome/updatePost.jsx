@@ -11,32 +11,32 @@ const UpdatePost = () => {
     const {data}=useGetSingleArticleQuery(id)
     const articleData=data?.data?.data || {}
     const {title,description,category,image}=articleData || []
-
-    const [newdata,{error,isLoading}]=useUpdateArticleMutation()
-
+    const [newdata,{isLoading}]=useUpdateArticleMutation()
     const [upload,setUpload]=useState(false)
 
-    const [inputForm,setInputForm] =useState({
-        title:'',
-        description:'',
-        Image:'',
-        category:'',
-    });
+    const [inputdata,setinputdata]=useState({
+        title:"",
+        description:"",
+        image:"",
+        category:""
+    })
 
-    useEffect(()=>{
-        setInputForm({
-            title:title || "",
-            description:description || "",
-            category:category || "",
-            Image:image || ""
-        })
-    },[articleData])
 
+   useEffect(()=> {
+       if(articleData){
+           setinputdata({
+               title:title || "",
+               description: description || "",
+               image: image || null,
+               category:category || ""
+           })
+       }
+   },[articleData])
 
     const handleImageUpload = (file) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-            setInputForm((prev) => ({
+            setinputdata((prev) => ({
                 ...prev,
                 Image: reader.result,
             }));
@@ -46,51 +46,44 @@ const UpdatePost = () => {
 
 
     const HandleonChange=(e)=>{
-        const {name,value,type,files}=e.target;
+        const {name,value,files,type}=e.target
 
-        if(type === 'file'){
+        if(type === "file"){
             handleImageUpload(files[0])
         }else {
-            setInputForm({
-                ...inputForm,
+            setinputdata({
+                ...inputdata,
                 [name]:value
             })
         }
     }
 
 
-    const HandleonSubmit=async (e)=>{
-        e.preventDefault()
+    const HandleonSubmmit=async(e)=>{
+        e.preventDefault();
         setUpload(true)
         try {
             const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputForm.Image, // base64 string
+                image: inputdata.image, // base64 string
             });
 
             const imageUrl = imageUploadResponse.data;
 
-            const updateData = {
-                title:inputForm.title,
-                description:inputForm.description,
-                image:imageUrl,
-                category:inputForm.category,
+            const Updatedata={
+                title:inputdata.title,
+                description:inputdata.description,
+                image:imageUrl ,
+                category:inputdata.category ,
             }
+            await newdata({id,newdata:Updatedata}).unwrap()
+            alert("product successfully updated")
 
-            await newdata(updateData).unwrap()
-            alert("Article uploaded successfully.")
-            setInputForm({
-                title:'',
-                description:'',
-                Image:'',
-                category:'',
-            })
-        }catch(err){
-            console.log(err)
+        }catch(error){
+            console.log(error)
         }finally {
-            setUpload(false);
+            setUpload(false)
         }
     }
-
 
     if(isLoading || upload) return (
         <div className="flex justify-center mt-10">
@@ -103,16 +96,17 @@ const UpdatePost = () => {
         <div className="p-4">
             <div className="flex gap-4 mb-4">
                 <input
-                    value={inputForm.title}
+                    value={inputdata.title}
                     onChange={HandleonChange}
                     name="title"
                     type="text"
                     placeholder="Title"
                     className="w-full border border-gray-300 rounded px-3 py-2"
                 />
-                <select value={inputForm.category}
-                        onChange={HandleonChange}
-                        name="category"
+                <select
+                    value={inputdata.category}
+                    onChange={HandleonChange}
+                    name="category"
                         className="border border-gray-300 rounded px-3 py-2">
                     <option>Select a Category</option>
                     <option>Tech</option>
@@ -127,7 +121,7 @@ const UpdatePost = () => {
 
             <div className="mb-4">
                 <textarea
-                    value={inputForm.description}
+                    value={inputdata.description}
                     onChange={HandleonChange}
                     name="description"
                     placeholder="Write something here..."
@@ -136,7 +130,8 @@ const UpdatePost = () => {
                 ></textarea>
             </div>
 
-            <button onClick={HandleonSubmit}
+            <button
+                onClick={HandleonSubmmit}
                     className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded cursor-pointer">
                 Publish Your Article
             </button>
