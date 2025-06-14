@@ -43,9 +43,17 @@ const articleAPI=createApi({
                 method:"GET",
                 credentials:'include'
             })
+        }),
+        getArticleFilter:builder.query({
+            query:({category})=>{
+              const queryParams=new URLSearchParams({
+                  category:category || ''
+              })
+                return `get-query?${queryParams}`
+            }
         })
     })
 })
 
-export const {useArticlePostMutation,useGetAllArticlesQuery,useDeleteArticleMutation,useUpdateArticleMutation,useGetSingleArticleQuery}=articleAPI;
+export const {useArticlePostMutation,useGetAllArticlesQuery,useDeleteArticleMutation,useUpdateArticleMutation,useGetSingleArticleQuery,useGetArticleFilterQuery}=articleAPI;
 export default articleAPI;
