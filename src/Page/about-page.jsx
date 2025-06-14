@@ -1,10 +1,12 @@
 import React from 'react';
-import About from "../conponents/About/about.jsx";
+import Header from "../conponents/About/header.jsx";
+import TeamSection from "../conponents/About/teamSection.jsx";
 
 const AboutPage = () => {
     return (
         <>
-           <About/>
+           <Header/>
+            <TeamSection/>
         </>
     );
 };
