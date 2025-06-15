@@ -24,16 +24,23 @@ const userAPI=createApi({
             })
         }),
         updateUser:builder.mutation({
-            query:({id,Userdata})=>({
+            query:({id,...body})=>({
                 url:`/update-user/${id}`,
                 method:"POST",
-                body:Userdata,
+                body,
                 credentials:'include'
             }),
             invalidatesTags: ['user'],
+        }),
+        getSingleUser:builder.query({
+            query:(id)=>({
+                url:`/get-singleuser/${id}`,
+                method:"GET",
+                credentials:'include'
+            })
         })
     })
 })
 
-export const {useGetAllusersQuery,useDeleteUserMutation,useUpdateUserMutation}=userAPI
+export const {useGetAllusersQuery,useDeleteUserMutation,useUpdateUserMutation,useGetSingleUserQuery}=userAPI
 export default userAPI

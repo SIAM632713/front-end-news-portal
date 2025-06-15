@@ -12,11 +12,11 @@ const UpdateProfile = ({isModalOpen,HandleModalclose}) => {
     const {user}=useSelector((state)=>state.auth)
     const [updateUser,{isLoading}]=useUpdateUserMutation()
 
-    const [uploading, setUploading] = useState(false);
+    const [uploading, setUpload] = useState(false);
 
     const [inputForm,setinputForm] = useState({
         username:"",
-        profileImage:null,
+        Image:null,
         bio:"",
         profession:"",
     })
@@ -32,51 +32,50 @@ const UpdateProfile = ({isModalOpen,HandleModalclose}) => {
         reader.readAsDataURL(file);
     };
 
-    const HandleonChange = (e) => {
-        const { name, value, files, type } = e.target;
-        if (type === 'file') {
-            handleImageUpload(files[0]);
-        } else {
+
+    const HandleonChange=(e)=>{
+        const {name,value,files,type}=e.target
+
+        if(type === "file"){
+            handleImageUpload(files[0])
+        }else {
             setinputForm({
                 ...inputForm,
-                [name]: value,
-            });
+                [name]:value
+            })
         }
-    };
+    }
 
-    const HandleonSubmit = async (e) => {
+    const HandleonSubmmit=async(e)=>{
         e.preventDefault();
-        setUploading(true)
-
-        // if (!inputForm.username || !inputForm.bio || !inputForm.profession || !inputForm.profileImage) {
-        //     alert("Please fill in all required fields.");
-        //     return;
-        // }
+        setUpload(true)
         try {
             const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputForm.Image,
+                image: inputForm.Image, // base64 string
             });
 
             const imageUrl = imageUploadResponse.data;
 
-            const userData = {
-                username: inputForm.username,
-                bio: inputForm.bio,
-                profession: inputForm.profession,
-                profileImage: imageUrl,
-            };
-
-            await updateUser({ id: user?._id, updateUser:userData }).unwrap();
-            alert("profile updated successfully.");
-        } catch (err) {
-            console.error('Error uploading image:', err);
+            const Updatedata={
+                username:inputForm.username,
+                bio:inputForm.bio,
+                profileImage:imageUrl ,
+                profession:inputForm.profession ,
+            }
+            await updateUser({ id: user?._id, ...Updatedata }).unwrap();
+            alert("product successfully updated")
+            setinputForm({
+                username:"",
+                Image:null,
+                bio:"",
+                profession:"",
+            })
+        }catch(error){
+            console.log(error)
         }finally {
-            setUploading(false);
+            setUpload(false)
         }
-    };
-
-
-
+    }
 
     return (
         <div className="fixed inset-0 backdrop-brightness-25 bg-opacity-50 flex items-center justify-center z-50">
@@ -88,7 +87,7 @@ const UpdateProfile = ({isModalOpen,HandleModalclose}) => {
                     <X size={20}/>
                 </button>
                 <h2 className="text-lg font-semibold mb-4">Edit Profile</h2>
-                <form onSubmit={HandleonSubmit} className="space-y-4">
+                <form onSubmit={HandleonSubmmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-1">Username</label>
                         <input
@@ -104,7 +103,7 @@ const UpdateProfile = ({isModalOpen,HandleModalclose}) => {
                         <input
                             onChange={HandleonChange}
                             type="file"
-                            name="profileImage"
+                            name="Image"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                         />
                     </div>
