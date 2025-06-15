@@ -1,12 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useGetAllArticlesQuery} from "../../redux/feature/articleAPI/articleAPI.js";
 import Loading from "../Loading/Loading.jsx";
+import {Link} from "react-router-dom";
 
 
 const PostArticle = () => {
 
     const {data,error,isLoading}=useGetAllArticlesQuery()
     const newsData=data?.data || []
+
+    const [visibleProduct, setVisibleProduct] = useState(9);
+
+    const handleClick = () => {
+        setVisibleProduct(prev => prev + 0);
+    };
+
 
     if(isLoading ) return (
         <div className="flex justify-center mt-10">
@@ -27,9 +35,9 @@ const PostArticle = () => {
 
     return (
         <div className="max-w-[1400px] mx-auto px-4 py-8">
-            <h2 className="text-xl font-semibold mb-6">Recent Posts</h2>
+            <h2 className="text-xl font-semibold mb-6">Recent News</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {newsData.map((item,index) => (
+                {newsData.slice(0,visibleProduct).map((item,index) => (
                     <div
                         key={index}
                         className="border rounded-lg overflow-hidden shadow-sm transition hover:shadow-md"
@@ -47,6 +55,15 @@ const PostArticle = () => {
                     </div>
                 ))}
             </div>
+                <div className="flex justify-center mt-6">
+                    <Link to="/news-article">
+                        <button
+                            onClick={handleClick}
+                            className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-6 rounded-full transition duration-300 cursor-pointer">
+                            View more →
+                        </button>
+                    </Link>
+                </div>
         </div>
     );
 };

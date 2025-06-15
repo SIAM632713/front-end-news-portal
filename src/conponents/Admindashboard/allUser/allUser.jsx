@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Loading from "../../Loading/Loading.jsx";
 import {useDeleteUserMutation, useGetAllusersQuery} from "../../../redux/feature/user/userAPI.js";
 import {confirmDelete, showSuccess} from "../../../utilitis/sweetalertHelper.js";
@@ -7,6 +7,10 @@ const AllUser = () => {
 
     const {data, error, isLoading, refetch} = useGetAllusersQuery();
     const userData = data?.data || {};
+
+    const [currentPage,setCurrentPage]=useState(1);
+    const UserperPage=10;
+
 
     const [userDelete] = useDeleteUserMutation();
 
@@ -22,6 +26,26 @@ const AllUser = () => {
             }
         }
     };
+
+
+    const indexOfLastNews=currentPage * UserperPage
+    const indexOfFirstNews=indexOfLastNews - UserperPage
+    const currerentUser= userData.slice(indexOfFirstNews,indexOfLastNews)
+    const totalPages=Math.ceil(userData.length/UserperPage)
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+
+    const HandlecurrerentPage=(pageNumber)=>{
+        if(pageNumber > 0 && pageNumber <= totalPages){
+            setCurrentPage(pageNumber)
+        }
+    }
 
     if (isLoading) return (
         <div className="flex justify-center mt-10">
@@ -55,7 +79,7 @@ const AllUser = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {userData.map((item, index) => (
+                    {currerentUser.map((item, index) => (
                         <tr key={index} className="border-b hover:bg-gray-50">
                             <td className="py-2 px-3 whitespace-nowrap">{new Date(item.createdAt).toLocaleDateString()}</td>
                             <td className="py-2 px-3">
@@ -80,6 +104,48 @@ const AllUser = () => {
                     ))}
                     </tbody>
                 </table>
+
+                {currerentUser.length > 0 && (
+                    <div className="flex flex-wrap justify-center mt-6 gap-2">
+                        <button
+                            onClick={handlePrevPage}
+                            disabled={currentPage === 1}
+                            className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                                currentPage === 1
+                                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                                    : "bg-white text-gray-700 hover:bg-gray-100"
+                            }`}
+                        >
+                            Previous
+                        </button>
+
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                onClick={() => HandlecurrerentPage(index + 1)}
+                                key={index}
+                                className={`px-3 py-2 rounded-md border text-sm font-medium ${
+                                    currentPage === index + 1
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-white text-gray-700 hover:bg-gray-100"
+                                }`}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+
+                        <button
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                            className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                                currentPage === totalPages
+                                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                                    : "bg-white text-gray-700 hover:bg-gray-100"
+                            }`}
+                        >
+                            Next
+                        </button>
+                    </div>
+                )}
             </div>
 
             <p className="text-center mt-4 text-gray-500 text-sm">

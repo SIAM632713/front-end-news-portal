@@ -17,7 +17,11 @@ const NewsArticles = () => {
 
     const totalData=productdata?.data?.articleData
 
+    const [visibleProduct, setVisibleProduct] = useState(8);
 
+    const handleClick = () => {
+        setVisibleProduct(prev => prev + 4);
+    };
 
     if(isLoading ) return (
         <div className="flex justify-center mt-10">
@@ -47,7 +51,7 @@ const NewsArticles = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {
-                        totalData.map((item, index) => (
+                        totalData.slice(0,visibleProduct).map((item, index) => (
                             <div key={index} className="border rounded-lg shadow-sm overflow-hidden">
                                 <img
                                     src={item.image}
@@ -68,6 +72,17 @@ const NewsArticles = () => {
                         ))
                     }
                 </div>
+
+                {visibleProduct < totalData.length && (
+                    <div className="flex justify-center mt-6">
+                        <button
+                            onClick={handleClick}
+                            className="px-5 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md transition"
+                        >
+                            Load More
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
