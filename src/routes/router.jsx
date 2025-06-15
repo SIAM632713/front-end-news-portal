@@ -12,7 +12,7 @@ import Profile from "../conponents/Userdashboard/Profile/Profile.jsx";
 import CreatPost from "../conponents/Admindashboard/CreatPost/creatPost.jsx";
 import YourArticles from "../conponents/Admindashboard/YourArticles/yourArticles.jsx";
 import AllUser from "../conponents/Admindashboard/allUser/allUser.jsx";
-import AllComment from "../conponents/Admindashboard/allComment/allComment.jsx";
+import AllComment from "../conponents/Userdashboard/allComment/allComment.jsx";
 import AdminHome from "../conponents/Admindashboard/adminHome/adminHome.jsx";
 import UpdatePost from "../conponents/Admindashboard/YourArticles/updatePost.jsx";
 
@@ -52,6 +52,10 @@ const router = createBrowserRouter([
                 path: "profile",
                 element: <Profile/>
             },
+            {
+                path: "all-comment",
+                element: <AllComment/>
+            },
 
             //admin route
 
@@ -74,10 +78,6 @@ const router = createBrowserRouter([
             {
                 path: "all-user",
                 element: <PrivateRoute role="admin"><AllUser/></PrivateRoute>
-            },
-            {
-                path: "all-comment",
-                element: <PrivateRoute role="admin"><AllComment/></PrivateRoute>
             },
         ]
     }

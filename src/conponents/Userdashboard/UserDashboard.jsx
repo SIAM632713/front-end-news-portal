@@ -2,7 +2,7 @@ import React from 'react';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {
     User,
-    LogOut
+    LogOut, MessageCircle
 } from 'lucide-react';
 import {useDispatch} from "react-redux";
 import {useLogoutMutation} from "../../redux/feature/auth/authAPI.js";
@@ -11,6 +11,7 @@ import {removeToken} from "../../utilitis/sessionHelper.js";
 
 const navLinks = [
     { to: "/dashboard/profile", label: "Profile", icon: <User size={18} /> },
+    { to: "/dashboard/all-comment", label: "All Comment", icon: <MessageCircle size={18} /> },
 
 ];
 

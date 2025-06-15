@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Search, Menu, X, User } from "lucide-react";
+import {Search, Menu, X, User, MessageCircle} from "lucide-react";
 import {Link, useNavigate} from "react-router-dom";
 import {getToken, removeToken} from "../../utilitis/sessionHelper.js";
 import {useDispatch, useSelector} from "react-redux";
@@ -42,6 +42,7 @@ const Navbar = () => {
 
     const UserDropdownMenu=[
         {label:"Profile",path:"/dashboard/profile"},
+        {label: "All Comment" , path: "/dashboard/all-comment"},
     ]
 
     const DropdownMenu=user?.role === "admin" ? [...AdmindropdownMenu] : [...UserDropdownMenu]

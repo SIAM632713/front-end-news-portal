@@ -35,7 +35,6 @@ const Admindashboard = () => {
         { to: "/dashboard/creat-post", label: "Create Post", icon: <FilePlus size={18} /> },
         { to: "/dashboard/your-articles", label: "Your Articles", icon: <FileText size={18} /> },
         {to:"/dashboard/all-user",label: "All User",icon: <Users  size={18} /> },
-        { to: "/dashboard/all-comment", label: "All Comment", icon: <MessageCircle size={18} /> },
     ];
 
     return (

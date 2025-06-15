@@ -22,9 +22,18 @@ const userAPI=createApi({
                 method:"DELETE",
                 credentials:'include'
             })
+        }),
+        updateUser:builder.mutation({
+            query:({id,Userdata})=>({
+                url:`/update-user/${id}`,
+                method:"POST",
+                body:Userdata,
+                credentials:'include'
+            }),
+            invalidatesTags: ['user'],
         })
     })
 })
 
-export const {useGetAllusersQuery,useDeleteUserMutation}=userAPI
+export const {useGetAllusersQuery,useDeleteUserMutation,useUpdateUserMutation}=userAPI
 export default userAPI
