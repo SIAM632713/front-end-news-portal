@@ -4,8 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getToken} from "../../utilitis/sessionHelper.js";
 
-const Comment = () => {
-    // const maxChars = 200;
+const Comment = ({refetch}) => {
 
     const {id}=useParams();
     const {user}=useSelector((state)=>state.auth);
@@ -33,19 +32,22 @@ const Comment = () => {
             return;
         }
 
+        const newComment = {
+            comment:commentImput.comment,
+            userID:user?._id,
+            articleID:id
+        }
+
         try {
-            const newComment = {
-                comment:commentImput.comment,
-                userID:user?._id,
-                articleID:id
-            }
             await postReview( newComment).unwrap()
             alert("Successfully posted")
             setcommentImput({
                 comment:''
             })
+            refetch()
         }catch(err){
            console.log(err);
+            alert("Something went wrong")
         }
     }
 
@@ -64,10 +66,7 @@ const Comment = () => {
                     placeholder="Add a comment..."
                 ></textarea>
 
-                <div className="flex justify-between items-center mt-2">
-                    {/*<span className="text-sm text-gray-500">*/}
-                    {/*    {maxChars - comment.length} characters remaining*/}
-                    {/*</span>*/}
+                <div className="flex justify-end items-center mt-2">
                     <button
                         type="submit"
                         className="px-4 py-1.5 text-white bg-black rounded-md hover:bg-gray-800 transition cursor-pointer"
@@ -76,9 +75,6 @@ const Comment = () => {
                     </button>
                 </div>
             </form>
-
-            {/* Below the input */}
-            <p className="mt-4 text-sm text-gray-600 italic">No comments yet!</p>
         </div>
     );
 };

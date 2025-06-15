@@ -4,13 +4,16 @@ import { useParams } from "react-router-dom";
 import Loading from "../Loading/Loading.jsx";
 import Advertize from "./advertize.jsx";
 import Comment from "./comment.jsx";
+import ShowComment from "./showComment.jsx";
 
 const ReadPost = () => {
     const { id } = useParams();
-    const { data, error, isLoading } = useGetSingleArticleQuery(id);
+    const { data, error, isLoading,refetch } = useGetSingleArticleQuery(id);
 
     const newsData = data?.data?.data || {};
     const { category, image, description, title, createdAt } = newsData;
+
+    const userData = data?.data?.reviewData || [];
 
     if (isLoading) {
         return (
@@ -63,7 +66,8 @@ const ReadPost = () => {
                 <p className= 'font-semibold text-base'>{description}</p>
             </div>
             <Advertize/>
-            <Comment/>
+            <Comment refetch={refetch}/>
+            <ShowComment refetch={refetch} userData={userData}/>
         </div>
     );
 };

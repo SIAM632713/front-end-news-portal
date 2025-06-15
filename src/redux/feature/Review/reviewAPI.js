@@ -24,9 +24,16 @@ const reviewAPI=createApi({
                 body:data,
                 credentials:'include'
             })
+        }),
+        deleteReview:builder.mutation({
+            query:(id)=>({
+                url:`/delete-review/${id}`,
+                method:"DELETE",
+                credentials:'include'
+            })
         })
     })
 })
 
-export const {useGetAllReviewsQuery,usePostReviewMutation}=reviewAPI;
+export const {useGetAllReviewsQuery,usePostReviewMutation,useDeleteReviewMutation}=reviewAPI;
 export default reviewAPI;

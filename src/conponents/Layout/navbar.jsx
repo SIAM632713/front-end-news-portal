@@ -37,7 +37,6 @@ const Navbar = () => {
         {label:"Creat Post",path:"/dashboard/creat-post"},
         {label: " Your Articles",path:"/dashboard/your-articles"},
         {label: "All User",path:"/dashboard/all-user"},
-        {label: "All Comments",path:"/dashboard/all-comment"},
     ]
 
     const UserDropdownMenu=[

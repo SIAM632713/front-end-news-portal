@@ -3,7 +3,7 @@ import image from "../../assets/images.jpeg"
 
 const Advertise = () => {
     return (
-        <div className="w-full max-w-[900px] mx-auto rounded-xl border border-emerald-200 bg-white shadow-sm flex flex-col md:flex-row items-center justify-between p-6 gap-6 animate-fade-in mt-10">
+        <div className="w-full max-w-[1000px] mx-auto rounded-xl border border-emerald-200 bg-white shadow-sm flex flex-col md:flex-row items-center justify-between p-6 gap-6 animate-fade-in mt-10">
             {/* Left: Text + Button */}
             <div className="flex-1 flex flex-col justify-center items-start">
                 <h2 className="text-2xl md:text-3xl font-semibold mb-2 text-black leading-snug">
