@@ -46,20 +46,22 @@ const PostArticle = () => {
                         <div className="p-4">
                             <h3 className="font-semibold text-base mb-1 truncate">{item.title}</h3>
                             <p className="text-sm text-gray-500 italic mb-4">{item.category}</p>
-                            <button
-                                className={`w-full py-2 px-4 rounded-md text-sm font-medium border border-gray-300 text-black hover:bg-blue-600 hover:text-white cursor-pointer ${item.buttonStyle}`}
-                            >
-                                Read Article
-                            </button>
+                            <Link to={`/read-post/${item?._id}`}>
+                                <button
+                                    className={`w-full py-2 px-4 rounded-md text-sm font-medium border border-gray-300 text-black hover:bg-blue-600 hover:text-white cursor-pointer ${item.buttonStyle}`}
+                                >
+                                    Read Article
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 ))}
             </div>
-                <div className="flex justify-center mt-6">
-                    <Link to="/news-article">
-                        <button
-                            onClick={handleClick}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-6 rounded-full transition duration-300 cursor-pointer">
+            <div className="flex justify-center mt-6">
+                <Link to="/news-article">
+                    <button
+                        onClick={handleClick}
+                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-6 rounded-full transition duration-300 cursor-pointer">
                             View more →
                         </button>
                     </Link>

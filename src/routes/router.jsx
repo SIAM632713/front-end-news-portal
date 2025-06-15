@@ -15,6 +15,7 @@ import AllUser from "../conponents/Admindashboard/allUser/allUser.jsx";
 import AllComment from "../conponents/Userdashboard/allComment/allComment.jsx";
 import AdminHome from "../conponents/Admindashboard/adminHome/adminHome.jsx";
 import UpdatePost from "../conponents/Admindashboard/YourArticles/updatePost.jsx";
+import ReadPost from "../conponents/readPost/readPost.jsx";
 
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
             { path: "/news-article",
                 element: <NewsArticlesPage />
             },
+            {
+                path: "/read-post/:id",
+                element: <ReadPost />
+            }
         ],
     },
     { path: "/register",

@@ -16,9 +16,17 @@ const reviewAPI=createApi({
                 method:"GET",
                 credentials:'include'
             })
+        }),
+        postReview:builder.mutation({
+            query:(data)=>({
+                url:'/post-review',
+                method:"POST",
+                body:data,
+                credentials:'include'
+            })
         })
     })
 })
 
-export const {useGetAllReviewsQuery}=reviewAPI;
+export const {useGetAllReviewsQuery,usePostReviewMutation}=reviewAPI;
 export default reviewAPI;

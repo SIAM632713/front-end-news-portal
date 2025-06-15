@@ -51,7 +51,7 @@ const articleAPI=createApi({
               })
                 return `get-query?${queryParams}`
             }
-        })
+        }),
     })
 })
 

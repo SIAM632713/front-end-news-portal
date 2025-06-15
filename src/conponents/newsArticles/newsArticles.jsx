@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useGetArticleFilterQuery} from "../../redux/feature/articleAPI/articleAPI.js";
 import Loading from "../Loading/Loading.jsx";
 import FilterArticle from "./filterArticle.jsx";
+import {Link} from "react-router-dom";
 
 const NewsArticles = () => {
 
@@ -63,10 +64,12 @@ const NewsArticles = () => {
                                         {item.title}
                                     </h3>
                                     <p className="text-sm text-gray-500 mb-3 capitalize">{item.category}</p>
-                                    <button
-                                        className="w-full border border-gray-300 text-gray-700 font-medium py-1 rounded-md border border-gray-300 text-black hover:bg-blue-600 hover:text-white cursor-pointer">
-                                        Read Article
-                                    </button>
+                                    <Link to={`/read-post/${item?._id}`}>
+                                        <button
+                                            className="w-full border border-gray-300 text-gray-700 font-medium py-1 rounded-md border border-gray-300 text-black hover:bg-blue-600 hover:text-white cursor-pointer">
+                                            Read Article
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         ))
