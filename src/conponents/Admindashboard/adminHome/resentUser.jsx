@@ -69,7 +69,7 @@ const ResentUser = () => {
                 {currerentUser.map(user => (
                     <tr key={user.id} className="border-t">
                         <td className="py-2">
-                            <img src={user.image} alt="User" className="w-10 h-10 rounded-full" />
+                            <img src={user.profileImage} alt="User" className="w-10 h-10 rounded-full" />
                         </td>
                         <td className="py-2">{user.username}</td>
                     </tr>

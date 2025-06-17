@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const Header = () => {
     return (
@@ -15,10 +16,12 @@ const Header = () => {
                     Stay informed, stay ahead.
                 </p>
                 <div className="mt-6">
-                    <button
-                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-6 rounded-full transition duration-300 cursor-pointer">
-                        View all posts →
-                    </button>
+                    <Link to="/news-article">
+                        <button
+                            className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-6 rounded-full transition duration-300 cursor-pointer">
+                            View all posts →
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>

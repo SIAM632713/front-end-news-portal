@@ -83,7 +83,14 @@ const AllUser = () => {
                         <tr key={index} className="border-b hover:bg-gray-50">
                             <td className="py-2 px-3 whitespace-nowrap">{new Date(item.createdAt).toLocaleDateString()}</td>
                             <td className="py-2 px-3">
-                                <div className="w-10 h-10 bg-gray-200 rounded-full"/>
+                                <div
+                                    className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                                    <img
+                                        src={item?.profileImage}
+                                        alt="User"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
                             </td>
                             <td className="py-2 px-3 break-words">{item.username}</td>
                             <td className="py-2 px-3 break-words">{item.email}</td>
