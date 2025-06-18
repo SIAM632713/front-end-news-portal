@@ -4,7 +4,6 @@ import {
     LayoutDashboard,
     FilePlus,
     FileText,
-    MessageCircle,
     LogOut,
     Users
 } from 'lucide-react';
@@ -38,7 +37,7 @@ const Admindashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen flex flex-col justify-between bg-white border-r">
+        <div className="min-h-screen flex flex-col justify-between bg-white">
             <div>
                 <div className="p-4 border-b">
                     <Link to="/">

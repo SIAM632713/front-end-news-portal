@@ -16,7 +16,7 @@ const FilterArticle = ({ filterState, setFilterState }) => {
     };
 
     return (
-        <div className="w-[300px] bg-white shadow-md p-6 border-r">
+        <div className="w-full md:w-[300px] md:min-w-[250px] bg-white min-h-screen shadow-md p-4 sm:p-6  md:border-r border-gray-200">
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
             {/* Search input (disabled for now) */}
@@ -48,7 +48,7 @@ const FilterArticle = ({ filterState, setFilterState }) => {
 
             <button
                 onClick={handleApplyFilters}
-                className="w-full bg-red-600 text-white font-semibold py-2 rounded-md shadow hover:bg-red-700"
+                className="w-full bg-red-600 text-white font-semibold py-2 rounded-md shadow hover:bg-red-700 transition duration-200"
             >
                 Apply Filters
             </button>

@@ -7,15 +7,15 @@ import Loading from "../../Loading/Loading.jsx";
 
 const CreatPost = () => {
 
-    const [data,{isLoading}]=useArticlePostMutation()
-    const {user}=useSelector((state)=>state.auth)
-    const [upload,setUpload]=useState(false)
+    const [data,{isLoading}] = useArticlePostMutation();
+    const {user} = useSelector((state) => state.auth);
+    const [upload, setUpload] = useState(false);
 
-    const [inputForm,setInputForm] =useState({
-        title:'',
-        description:'',
-        Image:'',
-        category:'',
+    const [inputForm, setInputForm] = useState({
+        title: '',
+        description: '',
+        Image: '',
+        category: '',
     });
 
     const handleImageUpload = (file) => {
@@ -29,23 +29,22 @@ const CreatPost = () => {
         reader.readAsDataURL(file);
     };
 
-
-    const HandleonChange=(e)=>{
-        const {name,value,type,files}=e.target;
+    const HandleonChange = (e) => {
+        const {name, value, type, files} = e.target;
 
         if(type === 'file'){
-            handleImageUpload(files[0])
-        }else {
+            handleImageUpload(files[0]);
+        } else {
             setInputForm({
                 ...inputForm,
-                [name]:value
-            })
+                [name]: value
+            });
         }
-    }
+    };
 
-    const HandleonSubmit=async (e)=>{
-        e.preventDefault()
-        setUpload(true)
+    const HandleonSubmit = async (e) => {
+        e.preventDefault();
+        setUpload(true);
         try {
             const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
                 image: inputForm.Image, // base64 string
@@ -54,58 +53,65 @@ const CreatPost = () => {
             const imageUrl = imageUploadResponse.data;
 
             const newData = {
-                title:inputForm.title,
-                description:inputForm.description,
-                image:imageUrl,
-                category:inputForm.category,
-                author:user?._id
-            }
+                title: inputForm.title,
+                description: inputForm.description,
+                image: imageUrl,
+                category: inputForm.category,
+                author: user?._id
+            };
 
-            await data(newData).unwrap()
-            alert("Article uploaded successfully.")
+            await data(newData).unwrap();
+            alert("Article uploaded successfully.");
             setInputForm({
-                title:'',
-                description:'',
-                Image:'',
-                category:'',
-            })
-        }catch(err){
-            console.log(err)
-        }finally {
+                title: '',
+                description: '',
+                Image: '',
+                category: '',
+            });
+        } catch (err) {
+            console.log(err);
+        } finally {
             setUpload(false);
         }
-    }
+    };
 
     if(isLoading || upload) return (
         <div className="flex justify-center mt-10">
             <Loading/>
         </div>
-    )
+    );
 
     return (
         <div className="p-4">
-            <div className="flex gap-4 mb-4">
+            <div className="flex flex-col sm:flex-row sm:gap-4 mb-4">
                 <input
                     value={inputForm.title}
                     onChange={HandleonChange}
                     name="title"
                     type="text"
                     placeholder="Title"
-                    className="w-full border border-gray-300 rounded px-3 py-2"
+                    className="w-full mb-3 sm:mb-0 border border-gray-300 rounded px-3 py-2"
                 />
-                <select value={inputForm.category}
-                        onChange={HandleonChange}
-                        name="category"
-                        className="border border-gray-300 rounded px-3 py-2">
-                    <option>Select a Category</option>
-                    <option>Tech</option>
-                    <option>News</option>
-                    <option>Lifestyle</option>
+                <select
+                    value={inputForm.category}
+                    onChange={HandleonChange}
+                    name="category"
+                    className="w-full border border-gray-300 rounded px-3 py-2"
+                >
+                    <option value="">Select a Category</option>
+                    <option value="Tech">Tech</option>
+                    <option value="News">News</option>
+                    <option value="Lifestyle">Lifestyle</option>
                 </select>
             </div>
 
             <div className="mb-4 border-2 border-dotted border-gray-300 rounded px-3 py-4">
-                <input onChange={HandleonChange} name="image" type="file" className="w-full" />
+                <input
+                    onChange={HandleonChange}
+                    name="image"
+                    type="file"
+                    className="w-full"
+                />
             </div>
 
             <div className="mb-4">
@@ -119,7 +125,10 @@ const CreatPost = () => {
                 ></textarea>
             </div>
 
-            <button onClick={HandleonSubmit} className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded cursor-pointer">
+            <button
+                onClick={HandleonSubmit}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded cursor-pointer"
+            >
                 Publish Your Article
             </button>
         </div>

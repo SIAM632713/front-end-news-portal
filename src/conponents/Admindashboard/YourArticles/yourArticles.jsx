@@ -1,39 +1,35 @@
-import React, {useState} from 'react';
-import {useDeleteArticleMutation, useGetAllArticlesQuery} from "../../../redux/feature/articleAPI/articleAPI.js";
+import React, { useState } from 'react';
+import { useDeleteArticleMutation, useGetAllArticlesQuery } from "../../../redux/feature/articleAPI/articleAPI.js";
 import Loading from "../../Loading/Loading.jsx";
-import {confirmDelete, showError, showSuccess} from "../../../utilitis/sweetalertHelper.js";
-import {Link} from "react-router-dom";
+import { confirmDelete, showError, showSuccess } from "../../../utilitis/sweetalertHelper.js";
+import { Link } from "react-router-dom";
 
 const YourArticles = () => {
+    const { data, error, isLoading, refetch } = useGetAllArticlesQuery();
+    const [deleteArticle] = useDeleteArticleMutation();
+    const [currentPage, setCurrentPage] = useState(1);
+    const NewsperPage = 10;
 
+    const newsData = data?.data || [];
 
-    const {data,error,isLoading,refetch}=useGetAllArticlesQuery ()
-    const [deleteArticle]=useDeleteArticleMutation()
-    const [currentPage,setCurrentPage]=useState(1);
-    const NewsperPage=10;
-
-    const newsData=data?.data || []
-
-
-    const HandledeleteArticle=async(id)=>{
-        const result=await confirmDelete()
-        if(result.isConfirmed){
+    const HandledeleteArticle = async (id) => {
+        const result = await confirmDelete();
+        if (result.isConfirmed) {
             try {
-                await deleteArticle(id).unwrap()
-                await showSuccess("Successfully deleted article")
-                refetch()
-            }catch (e){
-                console.error(e)
-                showError("Failed to delete article")
+                await deleteArticle(id).unwrap();
+                await showSuccess("Successfully deleted article");
+                refetch();
+            } catch (e) {
+                console.error(e);
+                showError("Failed to delete article");
             }
         }
-    }
+    };
 
-
-    const indexOfLastNews=currentPage * NewsperPage
-    const indexOfFirstNews=indexOfLastNews - NewsperPage
-    const currerentNews= newsData.slice(indexOfFirstNews,indexOfLastNews)
-    const totalPages=Math.ceil(newsData.length/NewsperPage)
+    const indexOfLastNews = currentPage * NewsperPage;
+    const indexOfFirstNews = indexOfLastNews - NewsperPage;
+    const currerentNews = newsData.slice(indexOfFirstNews, indexOfLastNews);
+    const totalPages = Math.ceil(newsData.length / NewsperPage);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -43,17 +39,18 @@ const YourArticles = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
 
-    const HandlecurrerentPage=(pageNumber)=>{
-        if(pageNumber > 0 && pageNumber <= totalPages){
-            setCurrentPage(pageNumber)
+    const HandlecurrerentPage = (pageNumber) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
         }
-    }
+    };
 
-    if(isLoading ) return (
-        <div className="flex justify-center mt-10">
-            <Loading/>
-        </div>
-    )
+    if (isLoading)
+        return (
+            <div className="flex justify-center mt-10">
+                <Loading />
+            </div>
+        );
 
     if (error) {
         return (
