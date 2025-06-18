@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useArticlePostMutation} from "../../../redux/feature/articleAPI/articleAPI.js";
 import {useSelector} from "react-redux";
 import axios from "axios";
 import {getBaseURL} from "../../../utilitis/utilitis.js";
-import Loading from "../../Loading/Loading.jsx";
+import ButtonLoader from "../../Userdashboard/Profile/buttonLoader.jsx";
 
 const CreatPost = () => {
 
     const [data,{isLoading}] = useArticlePostMutation();
     const {user} = useSelector((state) => state.auth);
     const [upload, setUpload] = useState(false);
-
+    const fileInputRef = useRef(null);
     const [inputForm, setInputForm] = useState({
         title: '',
         description: '',
@@ -45,6 +45,7 @@ const CreatPost = () => {
     const HandleonSubmit = async (e) => {
         e.preventDefault();
         setUpload(true);
+
         try {
             const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
                 image: inputForm.Image, // base64 string
@@ -68,18 +69,15 @@ const CreatPost = () => {
                 Image: '',
                 category: '',
             });
+            if (fileInputRef.current) {
+                fileInputRef.current.value = null;
+            }
         } catch (err) {
             console.log(err);
         } finally {
             setUpload(false);
         }
     };
-
-    if(isLoading || upload) return (
-        <div className="flex justify-center mt-10">
-            <Loading/>
-        </div>
-    );
 
     return (
         <div className="p-4">
@@ -99,15 +97,18 @@ const CreatPost = () => {
                     className="w-full border border-gray-300 rounded px-3 py-2"
                 >
                     <option value="">Select a Category</option>
-                    <option value="Tech">Tech</option>
-                    <option value="News">News</option>
-                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="world">World</option>
+                    <option value="business">Business</option>
+                    <option value="technology">Technology</option>
+                    <option value="sport">Sport</option>
+                    <option value="entertainment">Entertainment</option>
                 </select>
             </div>
 
             <div className="mb-4 border-2 border-dotted border-gray-300 rounded px-3 py-4">
                 <input
                     onChange={HandleonChange}
+                    ref={fileInputRef}
                     name="image"
                     type="file"
                     className="w-full"
@@ -124,12 +125,17 @@ const CreatPost = () => {
                     className="w-full border border-gray-300 rounded px-3 py-2"
                 ></textarea>
             </div>
-
             <button
                 onClick={HandleonSubmit}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded cursor-pointer"
+                type="submit"
+                disabled={isLoading || upload}
+                className={`w-full py-2 rounded-md text-white flex justify-center items-center ${
+                    isLoading || upload
+                        ? "bg-blue-400 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700"
+                }`}
             >
-                Publish Your Article
+                {isLoading || upload ? <ButtonLoader text="Saving..."/> : "Publish Your Article"}
             </button>
         </div>
     );

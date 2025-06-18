@@ -65,6 +65,10 @@ const YourArticles = () => {
 
     return (
         <div className="p-4">
+            <h2 className="text-lg md:text-xl font-semibold mb-2">All Article</h2>
+            <p className="mb-4 text-sm md:text-base">
+                Showing {indexOfFirstNews + 1} to {newsData.length} of {currerentNews.length} Article
+            </p>
             <div className="w-full overflow-x-auto">
                 <table className="w-full min-w-[600px] border table-auto">
                     <thead>

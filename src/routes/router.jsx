@@ -7,7 +7,6 @@ import LoginPage from "../Page/login-page.jsx";
 import RegisterPage from "../Page/register-page.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import Dashboard from "../dashboard.jsx";
-import DashboardHome from "../conponents/Userdashboard/DashboardHome/DashboardHome.jsx";
 import Profile from "../conponents/Userdashboard/Profile/Profile.jsx";
 import CreatPost from "../conponents/Admindashboard/CreatPost/creatPost.jsx";
 import YourArticles from "../conponents/Admindashboard/YourArticles/yourArticles.jsx";
@@ -49,10 +48,6 @@ const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard/></PrivateRoute>,
         children: [
             // user route
-            {
-                path: "user",
-                element: <DashboardHome />
-            },
             {
                 path: "profile",
                 element: <Profile/>

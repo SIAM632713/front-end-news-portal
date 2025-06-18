@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Filter = {
-    categories: ["All", "World", "Business", "Technology", "sport", "Entertainment"]
+    categories: ["All", "World", "Business", "Technology", "Sport", "Entertainment"]
 };
 
 const FilterArticle = ({ filterState, setFilterState }) => {

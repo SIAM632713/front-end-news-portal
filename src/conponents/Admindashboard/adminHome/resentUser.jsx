@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { useGetAllArticlesQuery } from "../../../redux/feature/articleAPI/articleAPI.js";
 import Loading from "../../Loading/Loading.jsx";
 import { Link } from "react-router-dom";
+import {useGetAllusersQuery} from "../../../redux/feature/user/userAPI.js";
 
 const ResentPost = () => {
-    const { data, error, isLoading } = useGetAllArticlesQuery();
+    const { data, error, isLoading } = useGetAllusersQuery();
     const [currentPage, setCurrentPage] = useState(1);
-    const NewsperPage = 5;
+    const UserperPage = 5;
 
-    const newsData = data?.data || [];
+    const userData = data?.data || [];
 
-    const indexOfLastNews = currentPage * NewsperPage;
-    const indexOfFirstNews = indexOfLastNews - NewsperPage;
-    const currerentNews = newsData.slice(indexOfFirstNews, indexOfLastNews);
-    const totalPages = Math.ceil(newsData.length / NewsperPage);
+    const indexOfLastNews = currentPage * UserperPage;
+    const indexOfFirstNews = indexOfLastNews - UserperPage;
+    const currerentUser = userData.slice(indexOfFirstNews, indexOfLastNews);
+    const totalPages = Math.ceil(userData.length / UserperPage);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -51,7 +51,7 @@ const ResentPost = () => {
         <div className="bg-white rounded-lg shadow p-4 w-full max-w-full overflow-hidden">
             <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
                 <h2 className="font-semibold text-lg sm:text-xl">Recent Post News</h2>
-                <Link to="/dashboard/your-articles" className="shrink-0">
+                <Link to="/dashboard/all-user" className="shrink-0">
                     <button className="bg-black text-white px-3 py-1 rounded cursor-pointer whitespace-nowrap text-sm sm:text-base">
                         See all
                     </button>
@@ -62,30 +62,28 @@ const ResentPost = () => {
                 <table className="w-full min-w-[480px] text-sm sm:text-base">
                     <thead>
                     <tr className="text-left text-gray-500 border-b">
-                        <th className="py-2 px-3 whitespace-nowrap">Post image</th>
-                        <th className="py-2 px-3">Post Title</th>
-                        <th className="py-2 px-3 whitespace-nowrap">Category</th>
+                        <th className="py-2 px-3 whitespace-nowrap">User image</th>
+                        <th className="py-2 px-3">Username</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {currerentNews.map((post) => (
+                    {currerentUser.map((post) => (
                         <tr key={post.id} className="border-t hover:bg-gray-50">
                             <td className="py-2 px-3">
                                 <img
-                                    src={post.image}
+                                    src={post.profileImage}
                                     alt="Post"
                                     className="w-10 h-10 rounded-full object-cover"
                                 />
                             </td>
-                            <td className="py-2 px-3">{post.title}</td>
-                            <td className="py-2 px-3">{post.category}</td>
+                            <td className="py-2 px-3">{post.username}</td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
             </div>
 
-            {currerentNews.length > 0 && (
+            {currerentUser.length > 0 && (
                 <div className="flex flex-wrap justify-center mt-6 gap-2 text-sm sm:text-base">
                     <button
                         onClick={handlePrevPage}

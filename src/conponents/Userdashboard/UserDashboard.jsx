@@ -33,17 +33,19 @@ const UserDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen w-64 bg-white flex flex-col justify-between shadow bg-gray-100">
+        <div className="min-h-screen  bg-white flex flex-col justify-between shadow bg-gray-100">
             <div>
                 <div className="px-6 py-5 border-b">
                     <Link to="/" className="block">
                         <h2 className="text-2xl font-bold">
-                            <span className="text-gray-800">Dashboard</span>
+                            <span className="text-gray-500">Morning</span>
+                            <span className="text-black">Dispatch</span>
                         </h2>
                     </Link>
+                    <i className="text-sm text-gray-500">User dashboard</i>
                 </div>
                 <nav className="flex flex-col gap-1 mt-4 px-2">
-                    {navLinks.map(({ to, label, icon }) => (
+                {navLinks.map(({ to, label, icon }) => (
                         <NavLink
                             key={to}
                             to={to}
