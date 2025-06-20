@@ -58,15 +58,15 @@ const Navbar = () => {
                             <Link
                                 to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/profile"}
                             >
-                                <button className="cursor-pointer">Dashboard</button>
+                                <button className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer">Dashboard</button>
                             </Link>
-                            <button onClick={handleLogout} className="cursor-pointer">
+                            <button onClick={handleLogout} className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer">
                                 Logout
                             </button>
                         </div>
                     ) : (
                         <Link to="/login">
-                            <button className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm">
+                            <button className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer">
                                 Login
                             </button>
                         </Link>
@@ -124,22 +124,22 @@ const Navbar = () => {
                                     to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/profile"}
                                     onClick={toggleMobileMenu}
                                 >
-                                    <button className="cursor-pointer w-full text-left">Dashboard</button>
+                                    <button className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer w-full text-left">Dashboard</button>
                                 </Link>
                                 <button
                                     onClick={() => {
                                         handleLogout();
                                         toggleMobileMenu();
                                     }}
-                                    className="cursor-pointer w-full text-left"
+                                    className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer w-full text-left"
                                 >
                                     Logout
                                 </button>
                             </>
                         ) : (
-                            <Link to="/register" onClick={toggleMobileMenu}>
+                            <Link to="/login" onClick={toggleMobileMenu}>
                                 <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 transition w-full">
-                                    Register
+                                    Login
                                 </button>
                             </Link>
                         )}
