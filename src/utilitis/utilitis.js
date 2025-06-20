@@ -1,3 +1,3 @@
 export const getBaseURL = () => {
-    return  "http://localhost:5000"
+    return  "https://newsportal-backend-1.onrender.com"
 }
