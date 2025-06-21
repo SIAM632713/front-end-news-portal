@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Search, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { getToken, removeToken } from "../../utilitis/sessionHelper.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../../redux/feature/auth/authAPI.js";
 import { logoutUser } from "../../redux/feature/auth/authSlice.jsx";
@@ -9,7 +8,7 @@ import { logoutUser } from "../../redux/feature/auth/authSlice.jsx";
 const Navbar = () => {
     const [logout] = useLogoutMutation();
     const { user } = useSelector((state) => state.auth);
-    const token = getToken();
+    const token = user?._id
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -20,7 +19,6 @@ const Navbar = () => {
         try {
             await logout().unwrap();
             dispatch(logoutUser());
-            removeToken();
             navigate("/login");
             setIsMobileMenuOpen(false); // close mobile menu on logout
         } catch (error) {
