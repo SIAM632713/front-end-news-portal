@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { usePostReviewMutation } from "../../redux/feature/Review/reviewAPI.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getToken } from "../../utilitis/sessionHelper.js";
 
 const Comment = ({ refetch }) => {
     const { id } = useParams();
     const { user } = useSelector((state) => state.auth);
+    const token=user?._id
     const [postReview] = usePostReviewMutation(id);
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const Comment = ({ refetch }) => {
     const handleOnSubmit = async (e) => {
         e.preventDefault();
 
-        if (!getToken()) {
+        if (!token) {
             alert("Please log in");
             navigate("/login");
             return;
