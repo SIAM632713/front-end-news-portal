@@ -1,3 +1,3 @@
 export const getBaseURL = () => {
-    return  "https://newsportal-backend-1.onrender.com"
+    return  "https://newsportal-backend-n3oo.onrender.com"
 }
