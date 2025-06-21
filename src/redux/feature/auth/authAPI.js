@@ -1,6 +1,5 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {getBaseURL} from "../../../utilitis/utilitis.js";
-import {setToken} from "../../../utilitis/sessionHelper.js";
 
 const authAPI = createApi({
     reducerPath:"authAPI",
@@ -25,12 +24,11 @@ const authAPI = createApi({
             }),
             async onQueryStarted(arg, { queryFulfilled }) {
                 try {
-                    const { data } = await queryFulfilled;
-                    setToken(data.token);
+                    await queryFulfilled;
                 } catch (err) {
                     console.error("Login failed:", err);
                 }
-            }
+            },
         }),
         Logout:builder.mutation({
             query:()=>({
