@@ -1,10 +1,10 @@
 import {createApi,fetchBaseQuery}  from "@reduxjs/toolkit/query/react";
-import {getBaseURL} from "../../../utilitis/utilitis.js";
+import {API_BASE_URL} from "../../../utilitis/utilitis.js";
 
 const userAPI=createApi({
     reducerPath:"userAPI",
     baseQuery:fetchBaseQuery({
-        baseUrl:`${getBaseURL()}/api/user`,
+        baseUrl:`${API_BASE_URL()}/api/user`,
         credentials:'include'
     }),
     tagTypes:['user'],
