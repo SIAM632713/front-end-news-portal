@@ -1,11 +1,11 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {API_BASE_URL} from "../../../utilitis/utilitis.js";
+import {getBaseURL} from "../../../utilitis/utilitis.js";
 import {setToken} from "../../../utilitis/sessionHelper.js";
 
 const authAPI = createApi({
     reducerPath:"authAPI",
     baseQuery:fetchBaseQuery({
-        baseUrl:`${API_BASE_URL()}/api/auth`,
+        baseUrl:`${getBaseURL()}/api/auth`,
         credentials:'include'
     }),
     tagTypes:['User'],
