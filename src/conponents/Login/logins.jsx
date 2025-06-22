@@ -5,10 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/feature/auth/authSlice.jsx";
+import ButtonLoader from "../Userdashboard/Profile/buttonLoader.jsx"
 
 const Logins = () => {
     const navigate = useNavigate();
-    const [Login] = useLoginMutation();
+    const [Login,{isLoading}] = useLoginMutation();
     const dispatch = useDispatch();
 
     const {
@@ -71,10 +72,13 @@ const Logins = () => {
                         </div>
 
                         <button
+                            disabled={isLoading}
                             type="submit"
-                            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer"
+                            className={`w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer ${
+                                isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                            }`}
                         >
-                            Login
+                            {isLoading ? <ButtonLoader text="Saving..."/> : "Login"}
                         </button>
                     </form>
 
