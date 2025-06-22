@@ -74,7 +74,7 @@ const Logins = () => {
                         <button
                             disabled={isLoading}
                             type="submit"
-                            className={`w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer ${
+                            className={`w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer flex justify-center items-center ${
                                 isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
                             }`}
                         >
