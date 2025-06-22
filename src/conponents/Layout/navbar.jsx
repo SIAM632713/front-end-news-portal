@@ -54,19 +54,28 @@ const Navbar = () => {
                     <NavLink to="/about">About</NavLink>
 
                     {token ? (
-                        <div className="flex items-center space-x-6">
+                        <>
                             <Link
                                 to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/profile"}
+                                onClick={toggleMobileMenu}
                             >
-                                <button className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer">Dashboard</button>
+                                <button className="w-full text-left px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition-all duration-300">
+                                    Dashboard
+                                </button>
                             </Link>
-                            <button onClick={handleLogout} className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer">
+                            <button
+                                onClick={() => {
+                                    handleLogout();
+                                    toggleMobileMenu();
+                                }}
+                                className="w-full text-left px-5 py-2 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition-all duration-300"
+                            >
                                 Logout
                             </button>
-                        </div>
+                        </>
                     ) : (
-                        <Link to="/login">
-                            <button className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-700 transition text-sm cursor-pointer">
+                        <Link to="/login" onClick={toggleMobileMenu}>
+                            <button className="w-full px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition-all duration-300">
                                 Login
                             </button>
                         </Link>
