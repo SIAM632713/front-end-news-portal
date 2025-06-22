@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignUpMutation } from "../../redux/feature/auth/authAPI.js";
 import { Link, useNavigate } from "react-router-dom";
+import ButtonLoader from "../Userdashboard/Profile/buttonLoader.jsx";
 
 const Register = () => {
     const {
@@ -12,7 +13,7 @@ const Register = () => {
 
     const [message, setMessage] = useState();
     const navigate = useNavigate();
-    const [signUp] = useSignUpMutation();
+    const [signUp,{isLoading}] = useSignUpMutation();
 
     const onSubmit = async (data) => {
         try {
@@ -76,10 +77,13 @@ const Register = () => {
                         {message && <p className="text-sm text-red-500">{message}</p>}
 
                         <button
+                            disabled={isLoading}
                             type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 cursor-pointer"
+                            className={`w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer flex justify-center items-center ${
+                                isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                            }`}
                         >
-                            Submit
+                            {isLoading ? <ButtonLoader text="Saving..."/> : "Submit"}
                         </button>
 
                         <p className="text-sm text-gray-600 mt-4 text-center">
