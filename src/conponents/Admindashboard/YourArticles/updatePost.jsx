@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useGetSingleArticleQuery, useUpdateArticleMutation} from "../../../redux/feature/articleAPI/articleAPI.js";
 import {useParams} from "react-router-dom";
-import Loading from "../../Loading/Loading.jsx";
 import axios from "axios";
 import {getBaseURL} from "../../../utilitis/utilitis.js";
+import ButtonLoader from "../../Userdashboard/Profile/buttonLoader.jsx";
 
 const UpdatePost = () => {
 
@@ -17,7 +17,7 @@ const UpdatePost = () => {
     const [inputdata, setinputdata] = useState({
         title: "",
         description: "",
-        image: "",
+        imageFile: "",
         category: ""
     });
 
@@ -26,45 +26,40 @@ const UpdatePost = () => {
             setinputdata({
                 title: title || "",
                 description: description || "",
-                image: image || null,
+                imageFile: image || null,
                 category: category || ""
             });
         }
     }, [articleData]);
 
-    const handleImageUpload = (file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setinputdata((prev) => ({
-                ...prev,
-                image: reader.result,  // fixed typo here (was Image)
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
-
     const HandleonChange = (e) => {
-        const {name, value, files, type} = e.target;
-
-        if (type === "file") {
-            handleImageUpload(files[0]);
+        const { name, value, files, type } = e.target;
+        if (type === 'file') {
+            setinputdata(prev => ({ ...prev, imageFile: files[0] }));
         } else {
-            setinputdata({
-                ...inputdata,
-                [name]: value
-            });
+            setinputdata(prev => ({ ...prev, [name]: value }));
         }
     };
 
     const HandleonSubmmit = async (e) => {
         e.preventDefault();
         setUpload(true);
-        try {
-            const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputdata.image, // base64 string
-            });
 
-            const imageUrl = imageUploadResponse.data;
+        try {
+            let imageUrl = "";
+
+            if (inputdata.imageFile) {
+                const formData = new FormData();
+                formData.append("image", inputdata.imageFile);
+
+                const imageUploadResponse = await axios.post(`${getBaseURL()}/api/upload`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                imageUrl = imageUploadResponse.data.url;
+            }
 
             const Updatedata = {
                 title: inputdata.title,
@@ -72,6 +67,7 @@ const UpdatePost = () => {
                 image: imageUrl,
                 category: inputdata.category,
             };
+
             await newdata({id, newdata: Updatedata}).unwrap();
             alert("product successfully updated");
 
@@ -81,12 +77,6 @@ const UpdatePost = () => {
             setUpload(false);
         }
     };
-
-    if (isLoading || upload) return (
-        <div className="flex justify-center mt-10">
-            <Loading/>
-        </div>
-    );
 
     return (
         <div className="p-4">
@@ -135,9 +125,15 @@ const UpdatePost = () => {
 
             <button
                 onClick={HandleonSubmmit}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded cursor-pointer"
+                type="submit"
+                disabled={isLoading || upload}
+                className={`w-full py-2 rounded-md text-white flex justify-center items-center ${
+                    isLoading || upload
+                        ? "bg-blue-400 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700"
+                }`}
             >
-                Publish Your Article
+                {isLoading || upload ? <ButtonLoader text="Saving..."/> : "Publish Your Article"}
             </button>
         </div>
     );

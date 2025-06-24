@@ -7,7 +7,7 @@ import Loading from "../../Loading/Loading.jsx";
 
 const Profile = () => {
     const { user } = useSelector((state) => state.auth);
-    const { data, error, isLoading } = useGetSingleUserQuery(user?._id);
+    const { data, error, isLoading,refetch } = useGetSingleUserQuery(user?._id);
     const userData = data?.data || {};
 
     const { username, profession, bio, profileImage } = userData;
@@ -61,6 +61,7 @@ const Profile = () => {
             <UpdateProfile
                 isModalOpen={isModalOpen}
                 HandleModalclose={HandleModalclose}
+                refetch={refetch}
             />
         </div>
     );

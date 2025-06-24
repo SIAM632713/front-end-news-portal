@@ -14,31 +14,16 @@ const CreatPost = () => {
     const [inputForm, setInputForm] = useState({
         title: '',
         description: '',
-        Image: '',
+        imageFile: '',
         category: '',
     });
 
-    const handleImageUpload = (file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setInputForm((prev) => ({
-                ...prev,
-                Image: reader.result,
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
-
     const HandleonChange = (e) => {
-        const {name, value, type, files} = e.target;
-
-        if(type === 'file'){
-            handleImageUpload(files[0]);
+        const { name, value, files, type } = e.target;
+        if (type === 'file') {
+            setInputForm(prev => ({ ...prev, imageFile: files[0] }));
         } else {
-            setInputForm({
-                ...inputForm,
-                [name]: value
-            });
+            setInputForm(prev => ({ ...prev, [name]: value }));
         }
     };
 
@@ -47,11 +32,20 @@ const CreatPost = () => {
         setUpload(true);
 
         try {
-            const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputForm.Image, // base64 string
-            });
+            let imageUrl = "";
 
-            const imageUrl = imageUploadResponse.data;
+            if (inputForm.imageFile) {
+                const formData = new FormData();
+                formData.append("image", inputForm.imageFile);
+
+                const imageUploadResponse = await axios.post(`${getBaseURL()}/api/upload`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                imageUrl = imageUploadResponse.data.url;
+            }
 
             const newData = {
                 title: inputForm.title,
@@ -66,7 +60,7 @@ const CreatPost = () => {
             setInputForm({
                 title: '',
                 description: '',
-                Image: '',
+                imageFile: '',
                 category: '',
             });
             if (fileInputRef.current) {
@@ -109,7 +103,7 @@ const CreatPost = () => {
                 <input
                     onChange={HandleonChange}
                     ref={fileInputRef}
-                    name="image"
+                    name="imageFile"
                     type="file"
                     className="w-full"
                 />

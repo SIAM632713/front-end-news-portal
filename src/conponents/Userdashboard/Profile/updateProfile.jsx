@@ -6,7 +6,7 @@ import { getBaseURL } from "../../../utilitis/utilitis.js";
 import axios from "axios";
 import ButtonLoader from "./buttonLoader.jsx";
 
-const UpdateProfile = ({ isModalOpen, HandleModalclose }) => {
+const UpdateProfile = ({ isModalOpen, HandleModalclose,refetch }) => {
     if (!isModalOpen) return null;
 
     const { user } = useSelector((state) => state.auth);
@@ -15,44 +15,39 @@ const UpdateProfile = ({ isModalOpen, HandleModalclose }) => {
 
     const [inputForm, setinputForm] = useState({
         username: "",
-        Image: null,
+        imageFile: null,
         bio: "",
         profession: "",
     });
 
-    const handleImageUpload = (file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setinputForm((prev) => ({
-                ...prev,
-                Image: reader.result,
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
-
     const HandleonChange = (e) => {
         const { name, value, files, type } = e.target;
-
-        if (type === "file") {
-            handleImageUpload(files[0]);
+        if (type === 'file') {
+            setinputForm(prev => ({ ...prev, imageFile: files[0] }));
         } else {
-            setinputForm({
-                ...inputForm,
-                [name]: value,
-            });
+            setinputForm(prev => ({ ...prev, [name]: value }));
         }
     };
 
     const HandleonSubmmit = async (e) => {
         e.preventDefault();
         setUpload(true);
-        try {
-            const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputForm.Image,
-            });
 
-            const imageUrl = imageUploadResponse.data;
+        try {
+            let imageUrl = "";
+
+            if (inputForm.imageFile) {
+                const formData = new FormData();
+                formData.append("image", inputForm.imageFile);
+
+                const imageUploadResponse = await axios.post(`${getBaseURL()}/api/upload`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                imageUrl = imageUploadResponse.data.url;
+            }
 
             const Updatedata = {
                 username: inputForm.username,
@@ -65,11 +60,12 @@ const UpdateProfile = ({ isModalOpen, HandleModalclose }) => {
 
             setinputForm({
                 username: "",
-                Image: null,
+                imageFile: null,
                 bio: "",
                 profession: "",
             });
-            HandleModalclose(); // Close modal after success
+            refetch()
+            HandleModalclose();
         } catch (error) {
             console.log(error);
         } finally {
