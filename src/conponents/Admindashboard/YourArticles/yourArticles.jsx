@@ -12,13 +12,6 @@ const YourArticles = () => {
 
     const newsData = data?.data || [];
 
-    if (isLoading)
-        return (
-            <div className="flex justify-center mt-10">
-                <Loading />
-            </div>
-        );
-
     const HandledeleteArticle = async (id) => {
         const result = await confirmDelete();
         if (result.isConfirmed) {
@@ -52,6 +45,12 @@ const YourArticles = () => {
         }
     };
 
+    if (isLoading)
+        return (
+            <div className="flex justify-center mt-10">
+                <Loading />
+            </div>
+        );
 
     if (error) {
         return (

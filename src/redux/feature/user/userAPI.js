@@ -38,9 +38,16 @@ const userAPI=createApi({
                 method:"GET",
                 credentials:'include'
             })
+        }),
+        updateUserRole:builder.mutation({
+            query:({id,role})=>({
+                url:`/update-user-role/${id}`,
+                method:"POST",
+                body: {role},
+            })
         })
     })
 })
 
-export const {useGetAllusersQuery,useDeleteUserMutation,useUpdateUserMutation,useGetSingleUserQuery}=userAPI
+export const {useGetAllusersQuery,useDeleteUserMutation,useUpdateUserMutation,useGetSingleUserQuery,useUpdateUserRoleMutation}=userAPI
 export default userAPI

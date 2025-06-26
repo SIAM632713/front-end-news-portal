@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Loading from "../../Loading/Loading.jsx";
 import {useDeleteUserMutation, useGetAllusersQuery} from "../../../redux/feature/user/userAPI.js";
 import {confirmDelete, showSuccess} from "../../../utilitis/sweetalertHelper.js";
+import UserInputstatus from "./UserInputstatus.jsx";
 
 const AllUser = () => {
 
@@ -24,6 +25,19 @@ const AllUser = () => {
                 console.log(error);
             }
         }
+    };
+
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const HandleModalopen = (user) => {
+        setSelectedUser(user);
+        setIsModalOpen(true);
+    };
+
+    const HandleModalclose = () => {
+        setSelectedUser(null);
+        setIsModalOpen(false);
     };
 
     const indexOfLastNews=currentPage * UserperPage;
@@ -72,6 +86,7 @@ const AllUser = () => {
                     <th className="py-2 px-3 whitespace-nowrap">Username</th>
                     <th className="py-2 px-3 whitespace-nowrap">Email</th>
                     <th className="py-2 px-3 text-center whitespace-nowrap">Admin</th>
+                    <th className="py-2 px-3 text-center whitespace-nowrap">Edit</th>
                     <th className="py-2 px-3 text-center whitespace-nowrap">Delete</th>
                 </tr>
                 </thead>
@@ -98,6 +113,11 @@ const AllUser = () => {
                                 <span className="text-red-600 font-bold">&#10007;</span>
                             )}
                         </td>
+                        <td onClick={()=>HandleModalopen(item)} className="py-2 px-3 text-center">
+                          <span className="text-blue-600 cursor-pointer hover:underline flex items-center justify-center gap-1">
+            ️                 Edit
+                         </span>
+                        </td>
                         <td
                             onClick={() => HandleDeleteuser(item?._id)}
                             className="py-2 px-3 text-red-600 cursor-pointer hover:underline text-center"
@@ -111,7 +131,7 @@ const AllUser = () => {
 
             {currerentUser.length > 0 && (
                 <div className="flex flex-wrap justify-center mt-6 gap-2">
-                    <button
+                <button
                         onClick={handlePrevPage}
                         disabled={currentPage === 1}
                         className={`px-4 py-2 rounded-md border text-sm font-medium ${
@@ -154,6 +174,7 @@ const AllUser = () => {
             <p className="text-center mt-4 text-gray-500 text-sm px-2">
                 A list of your recent subscribers.
             </p>
+            <UserInputstatus isModalOpen={isModalOpen} HandleModalclose={HandleModalclose} refetch={refetch} user={selectedUser}/>
         </div>
     );
 };
