@@ -9,7 +9,9 @@ const App = () => {
         <>
             <Navbar/>
             <Toaster position="top-center"/>
-          <Outlet/>
+            <div className="min-h-screen">
+                <Outlet/>
+            </div>
             <Footer/>
         </>
     );
